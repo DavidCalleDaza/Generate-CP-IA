@@ -1,0 +1,23 @@
+Toma el rol de experto en pruebas de calidad de Software especialista en ISO 29110
+
+Necesito un Script en Python de nombre cp.py que realice lo siguiente.
+
+1. Copiar el archivo test.xlsx ubicado en la carpeta Archivos imp de este proyecto y alojarlo en la carpeta Archivos_xpo con el nombre test_ia.xlsx.
+
+2. Necesito generar casos de prueba (CP) positivos, negativos, de límites y de extremos, a partir de los criterios de aceptación alojados en la hoja HISTORIA DE USUARIO del archivo test_ia.xlsx en esta hoja se muestran los campos TÍTULO en la celda B7, CONTEXTO en la celda C7, RESUTADO ESPERADO en la celda D7 y DETALLE CAMPOS en la celda F7.
+El número de criterios se listan desde la fila B7 en adelante. En la hoja CASOS DE PRUEBA se encuentra en los campos Título del Caso de Prueba celda C32, Descripción celda D32, Pasos de Ejecución celda E32, Resultado Esperado celda F32, Tipo de prueba (Positiva / Negativa) celda G32, Código CP celda H32 y Estado celda I32.
+ 
+3. Para el campo Tipo de prueba (Positiva / Negativa) la celda debe cambiar a color Verde si es positiva o roja si es negativa.
+
+4. Generar el código del CP según el número celda A7 y la información de las siguientes celdas: ÉPICA celda C1, ID_HU celda C2 de la hoja HISTORIA DE USUARIO.
+
+
+¿Puedes generar el código nuevamente sin perder su estructura, adicionando las siguientes mejoras?
+
+1. En el campo Tipo de prueba (Positiva / Negativa) poner dos estados más, uno para límites y otro para extremos y que la celda sea de color azul.
+
+2. Requiero diligenciar el campo Pasos de ejecución con un subtitulo que diga "Pasos específicos para recrear el escenario:" y generar estos pasos según la información del CONTEXTO en la hoja HISTORIA DE USUARIO.
+
+git config --global user.name "David Calle"
+git config --global user.email "jesusdavidcalledaza@gmail.com.com"
+
