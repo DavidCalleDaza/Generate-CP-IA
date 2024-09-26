@@ -4,8 +4,14 @@ import os
 from openpyxl.styles import PatternFill
 
 # Rutas de origen y directorio de destino
-source_file = r'C:\Users\d4vid\OneDrive\Escritorio\Generate CP-IA\Archivos_imp\test.xlsx'
-destination_directory = r'C:\Users\d4vid\OneDrive\Escritorio\Generate CP-IA\Archivos_xpo'
+ruta_archivos_imp = r'C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp'
+ruta_archivos_xpo = r'C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo'
+
+# Archivo de origen en el directorio 'Archivos_imp'
+source_file = os.path.join(ruta_archivos_imp, 'test.xlsx')
+
+# Directorio de destino 'Archivos_xpo'
+destination_directory = ruta_archivos_xpo
 
 # Obtener el nombre base del archivo original sin extensión
 filename = os.path.splitext(os.path.basename(source_file))[0]
@@ -46,7 +52,8 @@ def generar_pasos(contexto):
 
 # Función para rellenar los casos de prueba
 def generar_cp(sheet, row, tipo_prueba, titulo, contexto, resultado_esperado, detalle_campos, codigo_cp, color, rol):
-    sheet[f'C{row}'] = titulo
+    # Aquí se asegura que el título se use correctamente
+    sheet[f'C{row}'] = titulo  # Título del caso de prueba
     sheet[f'D{row}'] = f"{descripcion_hu} - Rol: {rol}\nQuiero: {quiero_hu}\nPara: {para_hu}\nPrerrequisitos: {prerequisitos_hu}"
     sheet[f'E{row}'] = generar_pasos(contexto)  # Generar pasos basados en CONTEXTO
     sheet[f'F{row}'] = resultado_esperado
@@ -60,7 +67,7 @@ row_historia = 7
 row_casos = 32  # Fila inicial para los casos de prueba
 
 while sheet_historia[f'B{row_historia}'].value:
-    titulo = sheet_historia[f'B{row_historia}'].value
+    titulo = sheet_historia[f'B{row_historia}'].value  # Asegúrate de que esto sea correcto
     contexto = sheet_historia[f'C{row_historia}'].value
     resultado_esperado = sheet_historia[f'D{row_historia}'].value
     detalle_campos = sheet_historia[f'F{row_historia}'].value
