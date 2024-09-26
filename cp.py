@@ -46,7 +46,8 @@ def generar_pasos(contexto):
 
 # Función para rellenar los casos de prueba
 def generar_cp(sheet, row, tipo_prueba, titulo, contexto, resultado_esperado, detalle_campos, codigo_cp, color, rol):
-    sheet[f'C{row}'] = titulo
+    # Aquí se asegura que el título se use correctamente
+    sheet[f'C{row}'] = titulo  # Título del caso de prueba
     sheet[f'D{row}'] = f"{descripcion_hu} - Rol: {rol}\nQuiero: {quiero_hu}\nPara: {para_hu}\nPrerrequisitos: {prerequisitos_hu}"
     sheet[f'E{row}'] = generar_pasos(contexto)  # Generar pasos basados en CONTEXTO
     sheet[f'F{row}'] = resultado_esperado
@@ -60,7 +61,7 @@ row_historia = 7
 row_casos = 32  # Fila inicial para los casos de prueba
 
 while sheet_historia[f'B{row_historia}'].value:
-    titulo = sheet_historia[f'B{row_historia}'].value
+    titulo = sheet_historia[f'B{row_historia}'].value  # Asegúrate de que esto sea correcto
     contexto = sheet_historia[f'C{row_historia}'].value
     resultado_esperado = sheet_historia[f'D{row_historia}'].value
     detalle_campos = sheet_historia[f'F{row_historia}'].value

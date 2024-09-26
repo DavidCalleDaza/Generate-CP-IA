@@ -13,7 +13,8 @@ def leer_archivo_word(ruta):
         for tabla in doc.tables:
             for fila in tabla.rows:
                 fila_texto = [celda.text.strip() for celda in fila.cells if celda.text.strip()]
-                if fila_texto:  # Verificar que la fila no esté vacía
+                # Asegurarse de que la fila tiene el número esperado de columnas (5 en este caso)
+                if fila_texto and len(fila_texto) >= 4:  # Verifica que la fila no esté vacía y tenga al menos 4 elementos
                     contenido.append(fila_texto)  # Guardar cada fila como una lista
 
         return contenido  # Devolver el contenido como un array
@@ -23,41 +24,46 @@ def leer_archivo_word(ruta):
         return []
 
 def guardar_en_excel(data, nombre_archivo):
-    # Crear un DataFrame a partir de los datos
-    df = pd.DataFrame(data, columns=["N°", "Título", "Contexto", "Resultado / Comportamiento esperado", "Detalle Campos"])
+    # Filtrar los datos para conservar solo aquellos donde la primera columna (N°) es numérica
+    data_filtrada = [fila for fila in data if fila and fila[0].isdigit()]
+
+    # Crear un DataFrame a partir de los datos filtrados
+    df = pd.DataFrame(data_filtrada, columns=["N°", "Título", "Contexto", "Resultado / Comportamiento esperado", "Detalle Campos"])
 
     # Guardar el DataFrame en un archivo Excel
     df.to_excel(nombre_archivo, index=False)
 
-def copiar_datos_entre_archivos(archivo_origen, archivo_destino):
+def copiar_criterios_al_test(archivo_origen, archivo_destino):
     try:
-        # Cargar el archivo origen (resultado.xlsx)
+        # Cargar el archivo origen (resultado.xlsx) donde se guardaron los criterios
         wb_origen = load_workbook(archivo_origen)
         hoja_origen = wb_origen.active
 
-        # Leer las celdas B4, C4, D4 y E4
-        b4 = hoja_origen['B4'].value
-        c4 = hoja_origen['C4'].value
-        d4 = hoja_origen['D4'].value
-        e4 = hoja_origen['E4'].value
-
         # Cargar el archivo destino (test.xlsx)
         wb_destino = load_workbook(archivo_destino)
-        hoja_destino = wb_destino.active
 
-        # Escribir los valores en las celdas B7, C7, D7 y E7
-        hoja_destino['B7'] = b4
-        hoja_destino['C7'] = c4
-        hoja_destino['D7'] = d4
-        hoja_destino['E7'] = e4
+        # Seleccionar la hoja "HISTORIA DE USUARIO" en el archivo destino
+        if "HISTORIA DE USUARIO" in wb_destino.sheetnames:
+            hoja_destino = wb_destino["HISTORIA DE USUARIO"]
+        else:
+            print("La hoja 'HISTORIA DE USUARIO' no existe en el archivo destino.")
+            return
 
-        # Guardar el archivo destino con los nuevos valores
+        # Leer las celdas del archivo origen y escribirlas a partir de la fila 7 en el archivo destino
+        for i, row in enumerate(hoja_origen.iter_rows(min_row=2, max_row=hoja_origen.max_row, values_only=True), start=7):
+            # Verificar que la fila no esté vacía y que contenga los datos necesarios
+            if row[1] is not None:  # Título no puede ser None
+                hoja_destino[f'B{i}'] = row[1]  # Título (columna B)
+                hoja_destino[f'C{i}'] = row[2]  # Contexto (columna C)
+                hoja_destino[f'D{i}'] = row[3]  # Resultado / Comportamiento esperado (columna D)
+                hoja_destino[f'E{i}'] = row[4]  # Detalle Campos (columna E)
+
+        # Guardar el archivo destino con los criterios copiados
         wb_destino.save(archivo_destino)
-
-        print(f"Datos copiados de {archivo_origen} a {archivo_destino}")
+        print(f"Criterios copiados correctamente en la hoja 'HISTORIA DE USUARIO' de {archivo_destino}")
 
     except Exception as e:
-        print(f"Ocurrió un error al copiar datos: {e}")
+        print(f"Ocurrió un error al copiar los criterios: {e}")
 
 if __name__ == "__main__":
     # Ruta del archivo Word
@@ -69,11 +75,11 @@ if __name__ == "__main__":
     ruta_excel_resultado = os.path.join(carpeta, "resultado.xlsx")
     ruta_excel_test = os.path.join(carpeta, "test.xlsx")
 
-    # Guardar el contenido en Excel (resultado.xlsx)
+    # Guardar el contenido en Excel (resultado.xlsx) filtrando registros no numéricos
     guardar_en_excel(contenido, ruta_excel_resultado)
 
-    # Copiar datos de resultado.xlsx a test.xlsx
-    copiar_datos_entre_archivos(ruta_excel_resultado, ruta_excel_test)
+    # Copiar criterios de aceptación desde resultado.xlsx a test.xlsx en la hoja "HISTORIA DE USUARIO"
+    copiar_criterios_al_test(ruta_excel_resultado, ruta_excel_test)
 
     # Mostrar el contenido por consola
     for linea in contenido:
