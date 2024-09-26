@@ -4,8 +4,8 @@ import os
 from openpyxl.styles import PatternFill
 
 # Rutas de origen y directorio de destino
-source_file = r'C:\Users\d4vid\OneDrive\Escritorio\Generate CP-IA\Archivos_imp\test.xlsx'
-destination_directory = r'C:\Users\d4vid\OneDrive\Escritorio\Generate CP-IA\Archivos_xpo'
+source_file = r'C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\test.xlsx'
+destination_directory = r'C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo'
 
 # Obtener el nombre base del archivo original sin extensión
 filename = os.path.splitext(os.path.basename(source_file))[0]
@@ -51,7 +51,7 @@ def generar_cp(sheet, row, tipo_prueba, titulo, contexto, resultado_esperado, de
     sheet[f'E{row}'] = generar_pasos(contexto)  # Generar pasos basados en CONTEXTO
     sheet[f'F{row}'] = resultado_esperado
     sheet[f'G{row}'] = tipo_prueba
-    sheet[f'G{row}'].fill = color
+    sheet[f'G{row}'].fill = color  # Aplicar el color de la celda
     sheet[f'H{row}'] = codigo_cp
     sheet[f'I{row}'] = "Pendiente"
 

@@ -61,7 +61,7 @@ def copiar_datos_entre_archivos(archivo_origen, archivo_destino):
 
 if __name__ == "__main__":
     # Ruta del archivo Word
-    ruta_archivo = r"C:\Users\d4vid\OneDrive\Escritorio\Generate CP-IA\Archivos_imp\test.docx"
+    ruta_archivo = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\test.docx"
     contenido = leer_archivo_word(ruta_archivo)
 
     # Obtener la carpeta del archivo Word
