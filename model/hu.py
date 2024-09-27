@@ -78,8 +78,8 @@ if __name__ == "__main__":
     # Guardar el contenido en Excel (resultado.xlsx) filtrando registros no numéricos
     guardar_en_excel(contenido, ruta_excel_resultado)
 
-    # Copiar criterios de aceptación desde resultado.xlsx a test.xlsx en la hoja "HISTORIA DE USUARIO"
-    copiar_criterios_al_test(ruta_excel_resultado, ruta_excel_test)
+    # Comentar o eliminar la llamada a la función para copiar criterios
+    # copiar_criterios_al_test(ruta_excel_resultado, ruta_excel_test)
 
     # Mostrar el contenido por consola
     for linea in contenido:
