@@ -4,8 +4,8 @@ import os
 def main():
     try:
         # Rutas completas a los scripts
-        cargar_hu_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\cargar_hu.py"
-        hu_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\hu.py"
+        cargar_hu_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\model\cargar_hu.py"
+        hu_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\model\hu.py"
 
         # 1. Ejecutar el script cargar_hu.py
         subprocess.run(['python', cargar_hu_path], check=True)
@@ -16,7 +16,7 @@ def main():
         print("Ejecutado: hu.py")
 
         # 3. Abrir el archivo CP-VBA
-        file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo\VBA\CP-VBA.xlsx"
+        file_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_xpo\VBA\CP-VBA.xlsm"
         os.startfile(file_path)
         print(f"Abrir archivo: {file_path}")
 

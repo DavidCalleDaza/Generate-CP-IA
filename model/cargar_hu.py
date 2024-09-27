@@ -6,8 +6,8 @@ def copiar_tabla_hu_y_pegar():
     nombre_hu = input("Ingresa el nombre de la historia de usuario (sin extensión, e.g., HU-003): ")
     
     # Rutas de los archivos
-    ruta_hu = os.path.join(r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Historias de usuario", f"{nombre_hu}.docx")
-    ruta_test = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
+    ruta_hu = os.path.join(r"C:\Users\ASUS\Desktop\pruebas\husp4", f"{nombre_hu}.docx")
+    ruta_test = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
     
     # Cargar el documento de la historia de usuario
     try:
