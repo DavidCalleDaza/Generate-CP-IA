@@ -1,7 +1,7 @@
 import subprocess
 import os
 from openpyxl import load_workbook  # Asegúrate de tener openpyxl instalado: pip install openpyxl
-
+#realizando merge
 # Ruta del archivo test.xlsx
 test_file_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\test.xlsx"
 
