@@ -1,5 +1,6 @@
 import os
 from docx import Document
+import subprocess  # Importar subprocess para ejecutar otro script
 
 def copiar_tabla_hu_y_pegar():
     # Pedir el nombre de la historia de usuario
@@ -50,6 +51,13 @@ def copiar_tabla_hu_y_pegar():
         print("La tabla se ha copiado y test.docx ha sido guardado correctamente.")
     except Exception as e:
         print(f"Error al guardar test.docx: {e}")
+
+    # Ejecutar el script hu.py después de terminar el proceso
+    try:
+        subprocess.run(["python", r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\hu.py"], check=True)
+        print("El script hu.py se ha ejecutado correctamente.")
+    except Exception as e:
+        print(f"Error al ejecutar hu.py: {e}")
 
 if __name__ == "__main__":
     copiar_tabla_hu_y_pegar()
