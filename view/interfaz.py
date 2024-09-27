@@ -10,6 +10,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 
 
+
 class CopiarTablaHU(BoxLayout):
     def __init__(self, **kwargs):
         super(CopiarTablaHU, self).__init__(**kwargs)
