@@ -16,7 +16,7 @@ def main():
         print("Ejecutado: hu.py")
 
         # 3. Abrir el archivo CP-VBA
-        file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo\VBA\CP-VBA.xlsx"
+        file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo\VBA\CP-VBA.xlsm"
         os.startfile(file_path)
         print(f"Abrir archivo: {file_path}")
 
