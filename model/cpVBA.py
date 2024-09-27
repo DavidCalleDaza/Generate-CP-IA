@@ -4,6 +4,7 @@ import openpyxl
 source_file = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\test.xlsx"
 destination_file = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo\CP-VBA.xlsm"
 
+
 # Cargar el archivo de origen y destino
 source_wb = openpyxl.load_workbook(source_file)
 destination_wb = openpyxl.load_workbook(destination_file)
