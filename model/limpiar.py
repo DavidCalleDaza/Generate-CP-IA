@@ -3,9 +3,9 @@ from openpyxl import load_workbook
 from docx import Document
 
 # Rutas de los archivos
-test_file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\test.xlsx"
-resultado_file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\resultado.xlsx"
-docx_file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
+test_file_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\test.xlsx"
+resultado_file_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\resultado.xlsx"
+docx_file_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
 
 def limpiar_test_file():
     # Cargar el libro de Excel
