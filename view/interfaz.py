@@ -1,73 +1,134 @@
 import os
 import subprocess
-import threading
+import webbrowser  # Importar para abrir el archivo de Excel
+from docx import Document
 from kivy.app import App
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
-from kivy.uix.button import Button
+from kivy.uix.popup import Popup
 
-class UserStoryApp(App):
-    def build(self):
-        # Crear el layout principal
-        layout = FloatLayout()
 
-        # Botón para ejecutar el script main.py (más pequeño y centrado)
-        execute_button = Button(text="Ejecutar script main.py", size_hint=(0.5, None), height=40)
-        execute_button.bind(on_press=self.execute_script)
-        execute_button.pos_hint = {'center_x': 0.5, 'top': 0.9}  # Centrando horizontalmente en la parte superior
-        layout.add_widget(execute_button)
+class CopiarTablaHU(BoxLayout):
+    def __init__(self, **kwargs):
+        super(CopiarTablaHU, self).__init__(**kwargs)
+        self.orientation = 'vertical'
 
-        # Campo de texto para ingresar el nombre de la historia de usuario (más pequeño y centrado)
-        self.story_input = TextInput(hint_text="Ingrese el nombre de la historia de usuario", size_hint=(0.5, None), height=40)
-        self.story_input.pos_hint = {'center_x': 0.5, 'top': 0.75}  # Centrando horizontalmente en la parte superior
-        layout.add_widget(self.story_input)
+        self.label = Label(text='Ingresa el nombre de la historia de usuario (sin extensión):')
+        self.add_widget(self.label)
 
-        # Botón para confirmar el nombre ingresado (sin espacio entre el campo de texto y este botón)
-        confirm_button = Button(text="Confirmar", size_hint=(0.5, None), height=40)
-        confirm_button.bind(on_press=self.confirm_story)
-        confirm_button.pos_hint = {'center_x': 0.5, 'top': 0.70}  # Un poco más bajo que el campo de texto
-        layout.add_widget(confirm_button)
+        self.nombre_hu = TextInput(multiline=False, halign='center')
+        self.add_widget(self.nombre_hu)
 
-        # Etiqueta para mostrar mensajes, también centrada
-        self.message_label = Label(text="", size_hint=(0.5, None), height=40)
-        self.message_label.pos_hint = {'center_x': 0.5, 'top': 0.5}  # Centrando horizontalmente en la parte superior
-        layout.add_widget(self.message_label)
+        # Campos adicionales no editables (3 filas de 3 campos)
+        self.campos_info = [
+            {'nombre': 'Proyecto', 'valor': ''},
+            {'nombre': 'Épica', 'valor': ''},
+            {'nombre': 'Puntos de estimación', 'valor': ''},
+            {'nombre': 'Descripción', 'valor': ''},
+            {'nombre': 'Roles', 'valor': ''},
+            {'nombre': 'ID-HU', 'valor': ''},
+            {'nombre': 'Quiero', 'valor': ''},
+            {'nombre': 'Para', 'valor': ''},
+            {'nombre': 'Prerrequisitos', 'valor': ''}
+        ]
 
-        return layout
+        for i in range(0, len(self.campos_info), 3):
+            fila = BoxLayout(orientation='horizontal')
+            for j in range(3):
+                campo = self.campos_info[i+j]
+                label = Label(text=campo['nombre'], size_hint_x=0.7)
+                text_input = TextInput(text=campo['valor'], multiline=False, readonly=True, size_hint_x=0.7)
+                fila.add_widget(label)
+                fila.add_widget(text_input)
+            self.add_widget(fila)
 
-    def confirm_story(self, instance):
-        # Obtener el texto ingresado en el campo de texto
-        story_name = self.story_input.text
-        if story_name:
-            # Mostrar un mensaje con el nombre ingresado
-            self.message_label.text = f"Historia de Usuario ingresada: {story_name}"
-        else:
-            self.message_label.text = "Por favor, ingrese un nombre válido."
+        # Botón "Extraer Criterios"
+        self.boton_extraer_criterios = Button(text='Extraer Criterios')
+        self.boton_extraer_criterios.bind(on_press=self.copiar_tabla_hu_y_pegar)
+        self.add_widget(self.boton_extraer_criterios)
 
-    def execute_script(self, instance):
-        # Ruta del script main.py
-        script_path = r'C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\main.py'
-        
-        # Obtener el nombre de la historia de usuario desde el campo de texto
-        story_name = self.story_input.text
+        # Botón para abrir el archivo de Excel con el color #86E3CE
+        self.boton_abrir_excel = Button(text='Abrir Excel', background_color=(134/255, 227/255, 206/255, 1))  # Color #86E3CE
+        self.boton_abrir_excel.bind(on_press=self.abrir_excel)
+        self.add_widget(self.boton_abrir_excel)
 
-        # Ejecutar el script en un hilo separado
-        threading.Thread(target=self.run_script, args=(script_path, story_name)).start()
+        # Botón para borrar registro de color #FA897B
+        self.boton_borrar_registro = Button(text='Borrar Registro', background_color=(250/255, 137/255, 123/255, 1))  # Color #FA897B
+        self.boton_borrar_registro.bind(on_press=self.borrar_registro)
+        self.add_widget(self.boton_borrar_registro)
 
-    def run_script(self, script_path, story_name):
+    def copiar_tabla_hu_y_pegar(self, instance):
+        nombre_hu = self.nombre_hu.text.strip()
+        ruta_hu = os.path.join(r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Historias de usuario", f"{nombre_hu}.docx")
+        ruta_test = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
+
         try:
-            # Ejecutar el script main.py y pasar el nombre de la historia como argumento
-            subprocess.run(['python', script_path, story_name], check=True)
-            self.update_message("Script main.py ejecutado.")
-        except subprocess.CalledProcessError as e:
-            self.update_message(f"Error al ejecutar el script: {e}")
+            doc_hu = Document(ruta_hu)
+            print(f"Archivo {nombre_hu}.docx cargado correctamente.")
         except Exception as e:
-            self.update_message(f"Ocurrió un error: {e}")
+            self.mostrar_popup(f"Error al cargar {nombre_hu}.docx: {e}")
+            return
+        
+        try:
+            doc_test = Document(ruta_test)
+            print("Archivo test.docx cargado correctamente.")
+        except Exception as e:
+            self.mostrar_popup(f"Error al cargar test.docx: {e}")
+            return
 
-    def update_message(self, message):
-        # Actualiza la etiqueta de mensaje en la interfaz
-        self.message_label.text = message
+        tabla_copiar = None
+        for table in doc_hu.tables:
+            if "Criterios de Aceptación" in table.cell(0, 0).text:
+                tabla_copiar = table
+                break
+
+        if not tabla_copiar:
+            self.mostrar_popup("No se encontró la tabla 'Criterios de Aceptación'.")
+            return
+
+        for row in tabla_copiar.rows:
+            nueva_fila = doc_test.add_table(rows=1, cols=len(row.cells)).rows[-1]
+            for idx, cell in enumerate(row.cells):
+                nueva_fila.cells[idx].text = cell.text
+
+        try:
+            doc_test.save(ruta_test)
+            self.mostrar_popup("La tabla se ha copiado y test.docx ha sido guardado correctamente.")
+        except Exception as e:
+            self.mostrar_popup(f"Error al guardar test.docx: {e}")
+
+        try:
+            subprocess.run(["python", r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\hu.py"], check=True)
+            print("El script hu.py se ha ejecutado correctamente.")
+        except Exception as e:
+            self.mostrar_popup(f"Error al ejecutar hu.py: {e}")
+
+    def abrir_excel(self, instance):
+        ruta_excel = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo\VBA\CP-VBA.xlsm"
+        try:
+            webbrowser.open(ruta_excel)
+            print("El archivo de Excel se ha abierto correctamente.")
+        except Exception as e:
+            self.mostrar_popup(f"Error al abrir el archivo de Excel: {e}")
+
+    def borrar_registro(self, instance):
+        try:
+            subprocess.run(["python", r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\limpiar.py"], check=True)
+            self.mostrar_popup("El script limpiar.py se ha ejecutado correctamente.")
+        except Exception as e:
+            self.mostrar_popup(f"Error al ejecutar limpiar.py: {e}")
+
+    def mostrar_popup(self, mensaje):
+        popup = Popup(title='Información', content=Label(text=mensaje), size_hint=(None, None), size=(400, 200))
+        popup.open()
+
+
+class MiApp(App):
+    def build(self):
+        return CopiarTablaHU()
+
 
 if __name__ == '__main__':
-    UserStoryApp().run()
+    MiApp().run()
