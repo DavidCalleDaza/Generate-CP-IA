@@ -21,3 +21,5 @@ El número de criterios se listan desde la fila B7 en adelante. En la hoja CASOS
 git config --global user.name "David Calle"
 git config --global user.email "jesusdavidcalledaza@gmail.com.com"
 
+activar entorno virtual
+.\venv\Scripts\Activate     

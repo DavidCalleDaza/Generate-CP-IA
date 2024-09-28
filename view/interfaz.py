@@ -10,19 +10,41 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 
 
-
 class CopiarTablaHU(BoxLayout):
     def __init__(self, **kwargs):
         super(CopiarTablaHU, self).__init__(**kwargs)
         self.orientation = 'vertical'
-        
+
         self.label = Label(text='Ingresa el nombre de la historia de usuario (sin extensión):')
         self.add_widget(self.label)
-        
-        self.nombre_hu = TextInput(multiline=False)
+
+        self.nombre_hu = TextInput(multiline=False, halign='center')
         self.add_widget(self.nombre_hu)
-        
-        # Cambiar el texto del botón a "Extraer Criterios"
+
+        # Campos adicionales no editables (3 filas de 3 campos)
+        self.campos_info = [
+            {'nombre': 'Proyecto', 'valor': ''},
+            {'nombre': 'Épica', 'valor': ''},
+            {'nombre': 'Puntos de estimación', 'valor': ''},
+            {'nombre': 'Descripción', 'valor': ''},
+            {'nombre': 'Roles', 'valor': ''},
+            {'nombre': 'ID-HU', 'valor': ''},
+            {'nombre': 'Quiero', 'valor': ''},
+            {'nombre': 'Para', 'valor': ''},
+            {'nombre': 'Prerrequisitos', 'valor': ''}
+        ]
+
+        for i in range(0, len(self.campos_info), 3):
+            fila = BoxLayout(orientation='horizontal')
+            for j in range(3):
+                campo = self.campos_info[i+j]
+                label = Label(text=campo['nombre'], size_hint_x=0.7)
+                text_input = TextInput(text=campo['valor'], multiline=False, readonly=True, size_hint_x=0.7)
+                fila.add_widget(label)
+                fila.add_widget(text_input)
+            self.add_widget(fila)
+
+        # Botón "Extraer Criterios"
         self.boton_extraer_criterios = Button(text='Extraer Criterios')
         self.boton_extraer_criterios.bind(on_press=self.copiar_tabla_hu_y_pegar)
         self.add_widget(self.boton_extraer_criterios)
