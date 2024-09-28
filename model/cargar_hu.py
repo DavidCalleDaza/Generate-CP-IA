@@ -7,9 +7,9 @@ def copiar_tabla_hu_y_pegar():
     nombre_hu = input("Ingresa el nombre de la historia de usuario (sin extensión, e.g., HU-003): ")
     
     # Rutas de los archivos
-    ruta_hu = os.path.join(r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Historias de usuario", f"{nombre_hu}.docx")
-    ruta_test = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
-    ruta_datos_generales = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Datos_generales_historia.docx"
+    ruta_hu = os.path.join(r"C:\Users\ASUS\Desktop\pruebas\husp4", f"{nombre_hu}.docx")
+    ruta_test = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
+    ruta_datos_generales = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\Datos_generales_historia.docx"
     
     # Cargar el documento de la historia de usuario
     try:
@@ -74,7 +74,7 @@ def copiar_tabla_hu_y_pegar():
 
     # Ejecutar el script hu.py después de terminar el proceso
     try:
-        subprocess.run(["python", r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\hu.py"], check=True)
+        subprocess.run(["python", r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\model\hu.py"], check=True)
         print("El script hu.py se ha ejecutado correctamente.")
     except Exception as e:
         print(f"Error al ejecutar hu.py: {e}")

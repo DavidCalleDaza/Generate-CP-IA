@@ -2,8 +2,8 @@ import os
 from docx import Document
 
 # Rutas de los archivos
-resultado_file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\resultado.xlsx"
-docx_file_path = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
+resultado_file_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\resultado.xlsx"
+docx_file_path = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
 
 def eliminar_archivo_resultado():
     # Eliminar el archivo resultado.xlsx si existe

@@ -61,8 +61,8 @@ class CopiarTablaHU(BoxLayout):
 
     def copiar_tabla_hu_y_pegar(self, instance):
         nombre_hu = self.nombre_hu.text.strip()
-        ruta_hu = os.path.join(r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Historias de usuario", f"{nombre_hu}.docx")
-        ruta_test = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
+        ruta_hu = os.path.join(r"C:\Users\ASUS\Desktop\pruebas\husp4", f"{nombre_hu}.docx")
+        ruta_test = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_imp\Criterios_de_aceptacion.docx"
 
         try:
             doc_hu = Document(ruta_hu)
@@ -100,13 +100,13 @@ class CopiarTablaHU(BoxLayout):
             self.mostrar_popup(f"Error al guardar test.docx: {e}")
 
         try:
-            subprocess.run(["python", r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\hu.py"], check=True)
+            subprocess.run(["python", r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\model\hu.py"], check=True)
             print("El script hu.py se ha ejecutado correctamente.")
         except Exception as e:
             self.mostrar_popup(f"Error al ejecutar hu.py: {e}")
 
     def abrir_excel(self, instance):
-        ruta_excel = r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\Archivos_xpo\VBA\CP-VBA.xlsm"
+        ruta_excel = r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\Archivos_xpo\VBA\CP-VBA.xlsm"
         try:
             webbrowser.open(ruta_excel)
             print("El archivo de Excel se ha abierto correctamente.")
@@ -115,7 +115,7 @@ class CopiarTablaHU(BoxLayout):
 
     def borrar_registro(self, instance):
         try:
-            subprocess.run(["python", r"C:\Users\d4vid\OneDrive\Escritorio\Generate-CP-IA\model\limpiar.py"], check=True)
+            subprocess.run(["python", r"C:\Users\ASUS\Documents\GitHub\Generate-CP-IA\model\limpiar.py"], check=True)
             self.mostrar_popup("El script limpiar.py se ha ejecutado correctamente.")
         except Exception as e:
             self.mostrar_popup(f"Error al ejecutar limpiar.py: {e}")
